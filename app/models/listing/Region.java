@@ -37,20 +37,20 @@ public class Region extends JsonModel {
         setId(municipalityName + countyName);
     }
 
-    String getMunicipalityName() {
+    public String getMunicipalityName() {
         return municipalityName;
     }
 
-    void setMunicipalityName(String municipalityName) {
+    public void setMunicipalityName(String municipalityName) {
         this.municipalityName = municipalityName;
         constructId();
     }
 
-    String getCountyName() {
+    public String getCountyName() {
         return countyName;
     }
 
-    void setCountyName(String countyName) {
+    public void setCountyName(String countyName) {
         this.countyName = countyName;
         constructId();
     }

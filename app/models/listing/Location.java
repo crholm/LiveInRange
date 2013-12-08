@@ -1,10 +1,12 @@
 package models.listing;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.helpers.JsonModel;
 import play.Logger;
 import play.db.ebean.Model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,17 +24,17 @@ public class Location extends JsonModel {
     @Id
     long id;
 
-    private List<String> namedAreas;
+    @JsonIgnore
+    private List<String> namedAreas = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     private Region region;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
     private Position position;
-
 
     @Override
     public void save() {
@@ -43,10 +45,22 @@ public class Location extends JsonModel {
             region.update();
         }
 
+        if( Position.find.byId(position.getId()) == null){
+            position.save();
+        }
+
         address.save();
-        position.save();
+
 
         super.save();    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void delete() {
+        Address a = address;
+        super.delete();
+        a.delete();
+
     }
 
     public long getId() {
@@ -56,6 +70,7 @@ public class Location extends JsonModel {
     public void setId(long id) {
         this.id = id;
     }
+
 
     public List<String> getNamedAreas() {
         return namedAreas;

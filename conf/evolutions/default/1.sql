@@ -32,12 +32,12 @@ create table location (
   id                        bigint auto_increment not null,
   region_id                 varchar(255),
   address_id                bigint,
-  position_id               bigint,
+  position_id               varchar(255),
   constraint pk_location primary key (id))
 ;
 
 create table position (
-  id                        bigint auto_increment not null,
+  id                        varchar(255) not null,
   latitude                  double,
   longitude                 double,
   transit_time_to_center    integer,

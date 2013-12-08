@@ -47,10 +47,10 @@ public class Listing extends JsonModel {
     @Lob
     private String url;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Location location;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     private Source source;
 
 
@@ -63,6 +63,11 @@ public class Listing extends JsonModel {
             source.update();
         }
         super.save();
+    }
+
+    @Override
+    public void delete() {
+        super.delete();
     }
 
     public long getBooliId() {

@@ -16,10 +16,10 @@ import javax.persistence.Id;
 @Entity
 public class Position extends JsonModel implements Comparable<Position> {
 
-    public static Finder<Long, Position> find = new Finder<>(Long.class, Position.class);
+    public static Finder<String, Position> find = new Finder<>(String.class, Position.class);
 
     @Id
-    public long id;
+    public String id;
 
     private double latitude;
     private double longitude;
@@ -33,12 +33,16 @@ public class Position extends JsonModel implements Comparable<Position> {
         this.transitTimeToCenter = transitTimeToCenter;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public void constructId(){
+        setId(getLatitude() + "," + getLongitude());
     }
 
     public double getLatitude() {
@@ -47,6 +51,7 @@ public class Position extends JsonModel implements Comparable<Position> {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
+        constructId();
     }
 
     public double getLongitude() {
@@ -55,11 +60,12 @@ public class Position extends JsonModel implements Comparable<Position> {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+        constructId();
     }
 
 
     @Override
     public int compareTo(Position position) {
-        return (int)(id-position.getId());
+        return id.compareTo(position.getId());
     }
 }

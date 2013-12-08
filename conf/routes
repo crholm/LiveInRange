@@ -4,5 +4,9 @@
 
 # Home page
 
-GET           /                                                                                           controllers.Assets.at(path="/public", file="index.html")
-GET           /*file                                                                                      controllers.Assets.at(path="/public", file)
+GET        /api/listing        controllers.ListingApi.get(transitTimeToCenter: Int ?= 1000, roomMin: Double ?= -1, roomMax: Double ?= 10000, priceMin: Double ?= -1, priceMax: Double ?= 1000000000, areaMin: Double ?= 0, areaMax: Double ?= 10000, offset: Int ?= 0, len: Int ?= 100 )
+
+
+
+GET        /                   controllers.Assets.at(path="/public", file="index.html")
+GET        /*file              controllers.Assets.at(path="/public", file)

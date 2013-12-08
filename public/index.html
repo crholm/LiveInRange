@@ -1,73 +1,130 @@
 
 
 <!DOCTYPE html>
-<html>
+<html ng-app="LIR">
 <head>
-    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
-    <link rel="stylesheet" href="/css/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="lib/css/pure-min.css">
+    <link rel="stylesheet" href="css/styles.css">
     <title></title>
 </head>
-<body>
+<body ng-controller="IndexCtrl">
 
 <div class="pure-g-r" id="layout">
     <div class="sidebar pure-u">
         <header class="header">
             <hgroup>
-                <h1 class="brand-title">A Sample Blog</h1>
-                <h2 class="brand-tagline">Creating a blog layout using Pure</h2>
+                <h1 class="brand-title">Hitta ett hem</h1>
+                <h2 class="brand-tagline">Hjälper dig att ha nära till centrum</h2>
             </hgroup>
 
+
+
+            <form class="pure-form pure-g-r">
+                <fieldset style="margin-left:13px">
+
+                    <label class="pure-u-1-2">Max tid från centrum</label>
+                        <input class="pure-u-1-2" type="text" placeholder="ex. 16 min" ng-model="transitTimeToCenter"><p/>
+
+                    <label class="pure-u-1-2">Antal rum </label>
+                        <input class="pure-u-1-4" type="text" placeholder="min" ng-model="var.roomMin"> <input class="pure-u-1-4" type="text" placeholder="max" ng-model="var.roomMax"><p/>
+
+                    <label class="pure-u-1-2">Pris </label>
+                        <input class="pure-u-1-4" type="text" placeholder="min" ng-model="var.priceMin"> <input class="pure-u-1-4" type="text" placeholder="max" ng-model="var.priceMax"><p/>
+
+                    <label class="pure-u-1-2">Area </label>
+                        <input class="pure-u-1-4" type="text" placeholder="min" ng-model="var.areaMin"> <input class="pure-u-1-4" type="text" placeholder="max" ng-model="var.areaMax"><p/>
+
+
+                    <button type="submit" class="pure-button pure-button-primary" ng-click="search()">Sök</button>
+                </fieldset>
+            </form>
+
+            <h2 class="brand-tagline">Sortera efter</h2>
             <nav class="nav">
                 <ul class="nav-list">
                     <li class="nav-item">
-                        <a class="pure-button" href="http://purecss.io">Pure</a>
+                        <a class="pure-button" ng-click="predicate = 'location.position.transitTimeToCenter'; reverse=!reverse" href="#">Restid</a>
                     </li>
                     <li class="nav-item">
-                        <a class="pure-button" href="http://yuilibrary.com">YUI Library</a>
+                        <a class="pure-button" ng-click="predicate = 'listPrice'; reverse=!reverse" href="#">Pris</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="pure-button" ng-click="predicate = 'costPerM2'; reverse=!reverse" href="#">Pris/m2</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="pure-button" ng-click="predicate = 'rent'; reverse=!reverse" href="#">Avgift</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="pure-button" ng-click="predicate = 'rooms'; reverse=!reverse" href="#">Rum</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="pure-button" ng-click="predicate = 'livingArea'; reverse=!reverse" href="#">Area</a>
                     </li>
                 </ul>
             </nav>
+
+
+
+
+            <div style="margin: 0 -5px 0 0; padding: 10px 0 0 0">
+              <label><input id="remember" type="checkbox" ng-model="sanityCheckBool"/>Ta bort annonser med pris 0 </label>
+            </div>
+
+
+
+
+
         </header>
     </div>
 
 
-    <div class="pure-u-1-3 ">
+    <div class="pure-u-1-3" ng-repeat="listing in listings | filter:sanityCheck | orderBy:predicate:reverse">
 
 
-        <div class="adbox">
+        <div class="adbox" >
 
-            <img src="http://api.bcdn.se/cache/primary_1558796_600x600.jpg">
-            <div class="adbox-inner">
-                <h2 >Marenvägen 42, Nacka</h2>
+            <a ng-href="{{listing.url}}" target="_blank"> <img ng-src="{{getImgUrl(listing)}}"> </a>
+                <div class="adbox-inner">
+                    <h2 >{{listing.location.address.streetAddress}}, {{listing.location.region.municipalityName}}</h2>
+
+                    <div class="pure-g-r">
+                        <div class="pure-u-2-3">
+                            <table class="pure-table pure-table-horizontal">
+                                <tbody>
+                                <tr>
+                                    <td>Pris {{ prettyNumbers(listing.listPrice) }} kr</td>
+                                    <td>{{ getCostPerM2(listing) }} kr/m2</td>
+                                </tr>
+
+                                <tr>
+                                    <td>{{listing.rooms}} rum </td>
+                                    <td>{{listing.livingArea}} m2</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Hyra: {{prettyNumbers(listing.rent)}} kr</td>
+                                    <td>Byggt: {{listing.constructionYear}}</td>
+                                </tr>
 
 
+                                </tbody>
+                            </table>
 
-                <table class="pure-table pure-table-horizontal">
-                    <tbody>
-                    <tr>
-                        <td>Pris 8 500 000 kr</td>
-                        <td>51 515 kr/m2</td>
-                    </tr>
+                        </div>
+                        <div class="pure-u-1-3">
+                            <h1 style="margin-bottom: 0">{{getTransitTime(listing)}}min</h1>
+                            <h3 style="margin-top: 0">till Centralen</h3>
+                        </div>
+                    </div>
 
-                    <tr>
-                        <td>8 rum </td>
-                        <td>165 m2</td>
-                    </tr>
-
-                    <tr>
-                        <td>Hyra: 6 001 kr</td>
-                        <td>Byggt: 2013</td>
-                    </tr>
-                    </tbody>
-                </table>
+                </div>
 
                 <hr />
                 <div class="adbox-footer">
                     2013-12-07
                 </div>
 
-
-            </div>
         </div>
 
     </div>
@@ -121,9 +178,14 @@
 
 
 
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.js"></script>
+<!--<script src="lib/js/angular.min.js"></script>-->
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular-resource.min.js"></script>
+<!--<script src="lib/js/alt/angular-resource.js"></script>-->
 
+<script src="app/app.js"></script>
+<script src="app/controllers/index-ctrl.js"></script>
+<script src="app/factories/rest-api.js"></script>
 
 </body>
 

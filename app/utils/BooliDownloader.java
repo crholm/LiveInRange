@@ -1,6 +1,7 @@
 package utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import models.listing.Address;
 import models.listing.Listing;
 import models.listing.Position;
 import play.Logger;
@@ -31,6 +32,7 @@ public class BooliDownloader implements Runnable{
         // SW  59.262020,17.800495
 
     static int tmp;
+    public static int threadsWorking = 0;
 
     @Override
     public void run() {
@@ -38,7 +40,7 @@ public class BooliDownloader implements Runnable{
 
             //downloadBooliData();
 
-            downloadGoogleTimeData();
+            //downloadGoogleTimeData();
 
             try {
                 Thread.sleep(1000*60*60*24);
@@ -50,6 +52,14 @@ public class BooliDownloader implements Runnable{
 
 
     public static String proxys[] = {
+            "78.130.201.110:8080",
+            "109.207.61.175:8090",
+            "85.214.200.215:80",
+            "80.112.143.42:80",
+            "95.211.129.17:3128",
+            "94.228.201.113:8080",
+            "46.29.78.20:3128",
+            "176.31.172.120:54321",
             "62.253.249.150:8080",
             "80.241.82.10:3128",
             "176.31.172.120:54321",
@@ -104,8 +114,10 @@ public class BooliDownloader implements Runnable{
             tmp=i;
             new Thread(new Runnable() {
                 int num = tmp;
+
                 @Override
                 public void run() {
+                    threadsWorking++;
                     Logger.info("Thread " + num + " is staring");
                     int failed = 0;
 
@@ -114,14 +126,16 @@ public class BooliDownloader implements Runnable{
 
                     while(!set.isEmpty()){
 
-
-
                         Position position = set.pollFirst();
 
                         if(position.getTransitTimeToCenter() != 0){
                             continue;
                         }
-                        if(failed == 20){
+
+
+                        if(failed == 3){
+                            set.add(position);
+                            threadsWorking--;
                             Logger.error("Thread " + num + " is Exiting <-------------------------------------");
                             break;
                         }
@@ -168,11 +182,14 @@ public class BooliDownloader implements Runnable{
 
                         } catch (MalformedURLException e) {
                             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                            set.add(position);
                             failed++;
                         } catch (IOException e) {
                             Logger.error("Thread " + num + " could not open connection");
+                            set.add(position);
                             failed++;
                         }
+
 
                         try {
                             Thread.sleep(2500);
@@ -192,9 +209,6 @@ public class BooliDownloader implements Runnable{
 
 
         }
-
-
-
 
 
 //        for(Position position : positions){
@@ -224,11 +238,11 @@ public class BooliDownloader implements Runnable{
 ////            URLConnection yc = url.openConnection(proxy);
 //
 //                url = new URL(path);
-//
-//                Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("195.138.65.222", 3128));
-//                URLConnection con = url.openConnection(proxy);
-//                InputStream in = con.getInputStream(); //url.openStream();
-//                //InputStream in = url.openStream();
+
+//         //       Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("195.138.65.222", 3128));
+//         //       URLConnection con = url.openConnection(proxy);
+//         //       InputStream in = con.getInputStream(); //url.openStream();
+//                InputStream in = url.openStream();
 //
 //                JsonNode node = Json.parse(in);
 //
@@ -265,6 +279,7 @@ public class BooliDownloader implements Runnable{
 //        }
 //
 //        Logger.debug("Done querying: " + (double)(System.currentTimeMillis()-time)/(double)1000 + "s");
+
     }
 
 
@@ -273,7 +288,7 @@ public class BooliDownloader implements Runnable{
 
         HashSet<Long> booliIds = new HashSet<>();
         try {
-            String path = new BooliRequest().toString();
+            String path = new BooliRequest(0, 500).toString();
             Logger.debug("Creating URL: " + path);
 
             URL url = new URL(path);
@@ -313,15 +328,22 @@ public class BooliDownloader implements Runnable{
 
                     booliIds.add(listing.getBooliId());
 
-                    Logger.debug("Created booliId: " + listing.getBooliId());
-                    try {
+
+//                    try {
+                    if(Listing.find.byId(listing.getBooliId()) == null){
                         listing.save();
-                    }catch (PersistenceException e){
-                        Logger.warn("Listing: " + listing.getBooliId() + " already exist in database, trying to update");
-                        listing.update();
+                        Logger.debug("Saved booliId: " + listing.getBooliId());
+                    }else{
+                        Logger.debug("Listing booliId: " + listing.getBooliId() + " already existed");
                     }
 
-                    Logger.debug("Saved booliId: " + listing.getBooliId());
+
+//                    }catch (PersistenceException e){
+//                        Logger.warn("Listing: " + listing.getBooliId() + " already exist in database, trying to update");
+//                        //listing.update();
+//                    }
+
+
 
                 }
 
@@ -332,11 +354,19 @@ public class BooliDownloader implements Runnable{
 
 
             List<Listing> listings = Listing.find.all();
+
+            int i = 0;
             for(Listing listing : listings){
                 if(!booliIds.contains(listing.getBooliId())){
+                    Logger.debug("removing " + listing.getBooliId());
+                    Address a = listing.getLocation().getAddress();
                     listing.delete();
+                    //a.delete();
+                    i++;
                 }
             }
+            Logger.debug("----------> Listings to be removed " + i);
+
 
 
 
