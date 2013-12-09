@@ -9,6 +9,7 @@ LIRCtrls.controller('IndexCtrl',  function ($scope, Listing) {
     $scope.hello ="HelloAngular";
 
     $scope.var = {};
+    $scope.appendVar = {};
     $scope.transitTimeToCenter;
     $scope.var.roomMin;
     $scope.var.roomMax
@@ -18,12 +19,12 @@ LIRCtrls.controller('IndexCtrl',  function ($scope, Listing) {
     $scope.var.areaMax
     $scope.var.offset = 0;
     $scope.var.len = 100;
-
+    $scope.isSearching = false;
 
 
 
     $scope.search = function(){
-
+        $scope.isSearching = true;
         $scope.listings = [];
 
         if(typeof $scope.transitTimeToCenter != 'undefined'){
@@ -39,13 +40,45 @@ LIRCtrls.controller('IndexCtrl',  function ($scope, Listing) {
             }
         }
 
+        $scope.appendVar = JSON.parse(JSON.stringify($scope.var));
+
         Listing.get($scope.var,function(d){
+            $scope.isSearching = false;
             console.log(d);
             console.log(d.payload);
+            $scope.result = d;
 
             $scope.listings.push.apply($scope.listings, d.payload);
-        })
+        }, function(){
+            $scope.isSearching = false;
+        });
 
+    }
+
+    $scope.appendSearch = function(){
+
+        $scope.appendVar.offset = $scope.listings.length;
+        $scope.isSearching = true;
+        Listing.get($scope.appendVar,function(d){
+            $scope.isSearching = false;
+            console.log(d);
+            console.log(d.payload);
+            $scope.result = d;
+
+            $scope.listings.push.apply($scope.listings, d.payload);
+        }, function(){
+            $scope.isSearching = false;
+        });
+    }
+    $scope.disableAppendSearch = function(){
+
+        if($scope.listings.length == 0){
+            return true;
+        }
+        if($scope.listings.length == $scope.result.totalLenght){
+            return true;
+        }
+        return false;
     }
 
     $scope.prettyNumbers = function(num){
@@ -91,11 +124,7 @@ LIRCtrls.controller('IndexCtrl',  function ($scope, Listing) {
         if(!$scope.sanityCheckBool){
             return true;
         }
-        if(listing.listPrice == 0){
-            return false;
-        }
-        return true;
-
+        return !(listing.listPrice == 0 || typeof listing.livingArea == 'undefined' || listing.livingArea == 0 || listing.rooms == 0 );
     }
 
 

@@ -30,7 +30,7 @@ a:focus {
 }
 
 .header {
-    margin: 50% 2em 0;
+    margin: 40% 2em 0;
     text-align: right;
 }
 
@@ -57,7 +57,8 @@ a:focus {
     *display: inline;
     zoom: 1;
 }
-.nav-item a {
+.nav-item a,  h2 .pure-button{
+    font-size: 16px;
     border-radius: 0px;
     background: transparent;
     border: 3px solid rgb(103, 103, 180);
@@ -71,13 +72,35 @@ a:focus {
     text-decoration: none;
 }
 
+.nav-item .pure-button[disabled], .nav-item .pure-button-disabled, .nav-item .pure-button-disabled:hover, .nav-item .pure-button-disabled:focus, .nav-item .pure-button-disabled:active{
+    border: 3px solid rgb(142, 142, 214);
+    color: rgb(142, 142, 214);
+    text-decoration: none;
+}
+
+
 .adbox{
+    min-height: 460px;
     margin: 0px 10px 20px 10px;
 
     background: rgb(24, 33, 61);
     color: #fff;
 
+
+
 }
+
+.imagebox{
+    display: block;
+    max-width: 100%;
+    max-height: 308px;
+    height: 308px;
+    overflow: hidden;
+    background-size: cover
+
+
+}
+
 .adbox-inner{
     padding: 10px 10px 10px 10px;
     color: #fff;
@@ -208,7 +231,11 @@ a:focus {
     .content {
         padding: 2em 1em 0;
     }
+    .pure-form input[type=text], .pure-form input[type=password], .pure-form input[type=email], .pure-form input[type=url], .pure-form input[type=date], .pure-form input[type=month], .pure-form input[type=time], .pure-form input[type=datetime], .pure-form input[type=datetime-local], .pure-form input[type=week], .pure-form input[type=number], .pure-form input[type=search], .pure-form input[type=tel], .pure-form input[type=color], .pure-form label{
+        display: inline-block;
+    }
 }
+
 
  .pure-form input[type=text], .pure-form input[type=password], .pure-form input[type=email], .pure-form input[type=url], .pure-form input[type=date], .pure-form input[type=month], .pure-form input[type=time], .pure-form input[type=datetime], .pure-form input[type=datetime-local], .pure-form input[type=week], .pure-form input[type=number], .pure-form input[type=search], .pure-form input[type=tel], .pure-form input[type=color], .pure-form select, .pure-form textarea{
      border-radius: 0px;

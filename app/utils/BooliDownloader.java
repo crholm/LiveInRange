@@ -38,9 +38,9 @@ public class BooliDownloader implements Runnable{
     public void run() {
         while(true){
 
-            //downloadBooliData();
+            downloadBooliData();
 
-            //downloadGoogleTimeData();
+            downloadGoogleTimeData();
 
             try {
                 Thread.sleep(1000*60*60*24);
@@ -105,180 +105,186 @@ public class BooliDownloader implements Runnable{
         Logger.debug("Starting querying");
         long time = System.currentTimeMillis();
         int failed = 0;
+//
+//
+//        final ConcurrentSkipListSet<Position> set = new ConcurrentSkipListSet<>();
+//        set.addAll(positions);
+//
+//        for(int i = 0; i < proxys.length; i++){
+//            tmp=i;
+//            new Thread(new Runnable() {
+//                int num = tmp;
+//
+//                @Override
+//                public void run() {
+//                    threadsWorking++;
+//                    Logger.info("Thread " + num + " is staring");
+//                    int failed = 0;
+//
+//                    String proxyAddress = proxys[num].split(":")[0];
+//                    int port = Integer.parseInt(proxys[num].split(":")[1]);
+//
+//                    while(!set.isEmpty()){
+//
+//                        Position position = set.pollFirst();
+//
+//                        if(position.getTransitTimeToCenter() != 0){
+//                            continue;
+//                        }
+//
+//
+//                        if(failed == 3){
+//                            set.add(position);
+//                            threadsWorking--;
+//                            Logger.error("Thread " + num + " is Exiting <-------------------------------------");
+//                            break;
+//                        }
+//
+//                        String path = "http://maps.googleapis.com/maps/api/directions/json?" +
+//                                "origin=" + position.getLatitude() + "," + position.getLongitude() + "&" +
+//                                "destination=" + sthlmCentrumLat + "," + sthlmCentrumLng + "&" +
+//                                "sensor=false" +
+//                                "&departure_time=" + departure_time + "&" +
+//                                "mode=transit";
+//
+//                        URL url = null;
+//                        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyAddress, port));
+//                        try {
+//
+//                            url = new URL(path);
+//
+//
+//                            URLConnection con = url.openConnection(proxy);
+//                            InputStream in = con.getInputStream();
+//
+//                            JsonNode node = Json.parse(in);
+//
+//                            try{
+//                                JsonNode duration = node.findPath("routes").get(0).findValue("legs").get(0).findValue("duration").findValue("value");
+//                                position.setTransitTimeToCenter(duration.asInt());
+//                                position.update();
+//                                failed = 0;
+//                                Logger.debug("Thread " + num + " wrote to db");
+//
+//                            }catch (NullPointerException e){
+//                                Logger.warn("Thread: " + num + " could not parse response");//from: " + path);
+//
+//                                failed++;
+//
+//                                set.add(position);
+//
+//                            }
+//
+//                            in.close();
+//
+//
+//
+//
+//                        } catch (MalformedURLException e) {
+//                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//                            set.add(position);
+//                            failed++;
+//                        } catch (IOException e) {
+//                            Logger.error("Thread " + num + " could not open connection");
+//                            set.add(position);
+//                            failed++;
+//                        }
+//
+//
+//                        try {
+//                            Thread.sleep(2500);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//                        }
+//
+//
+//
+//                    }
+//
+//
+//
+//                }
+//
+//            }).start();
+//
+//
+//        }
 
 
-        final ConcurrentSkipListSet<Position> set = new ConcurrentSkipListSet<>();
-        set.addAll(positions);
+        while(!positions.isEmpty()){
 
-        for(int i = 0; i < proxys.length; i++){
-            tmp=i;
-            new Thread(new Runnable() {
-                int num = tmp;
+            Position position = positions.remove(0);
 
-                @Override
-                public void run() {
-                    threadsWorking++;
-                    Logger.info("Thread " + num + " is staring");
-                    int failed = 0;
-
-                    String proxyAddress = proxys[num].split(":")[0];
-                    int port = Integer.parseInt(proxys[num].split(":")[1]);
-
-                    while(!set.isEmpty()){
-
-                        Position position = set.pollFirst();
-
-                        if(position.getTransitTimeToCenter() != 0){
-                            continue;
-                        }
+            if(position.getTransitTimeToCenter() != 0){
+                continue;
+            }
+            if(failed == 20){
+                break;
+            }
 
 
-                        if(failed == 3){
-                            set.add(position);
-                            threadsWorking--;
-                            Logger.error("Thread " + num + " is Exiting <-------------------------------------");
-                            break;
-                        }
-
-                        String path = "http://maps.googleapis.com/maps/api/directions/json?" +
-                                "origin=" + position.getLatitude() + "," + position.getLongitude() + "&" +
-                                "destination=" + sthlmCentrumLat + "," + sthlmCentrumLng + "&" +
-                                "sensor=false" +
-                                "&departure_time=" + departure_time + "&" +
-                                "mode=transit";
-
-                        URL url = null;
-                        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyAddress, port));
-                        try {
-
-                            url = new URL(path);
+            String path = "https://maps.googleapis.com/maps/api/directions/json?" +
+                    //"key=" + apiKey  + "&" +
+                    "origin=" + position.getLatitude() + "," + position.getLongitude() + "&" +
+                    "destination=" + sthlmCentrumLat + "," + sthlmCentrumLng + "&" +
+                    "sensor=false" +
+                    "&departure_time=" + departure_time + "&" +
+                    "mode=transit";
 
 
-                            URLConnection con = url.openConnection(proxy);
-                            InputStream in = con.getInputStream();
+            Logger.debug("Creating URL: " + path);
+            URL url = null;
+            try {
 
-                            JsonNode node = Json.parse(in);
+//            Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("my.proxy.example.com", 3128));
+//            URLConnection yc = url.openConnection(proxy);
 
-                            try{
-                                JsonNode duration = node.findPath("routes").get(0).findValue("legs").get(0).findValue("duration").findValue("value");
-                                position.setTransitTimeToCenter(duration.asInt());
-                                position.update();
-                                failed = 0;
-                                Logger.debug("Thread " + num + " wrote to db");
+                url = new URL(path);
 
-                            }catch (NullPointerException e){
-                                Logger.warn("Thread: " + num + " could not parse response");//from: " + path);
+         //       Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("195.138.65.222", 3128));
+         //       URLConnection con = url.openConnection(proxy);
+         //       InputStream in = con.getInputStream(); //url.openStream();
+                InputStream in = url.openStream();
 
-                                failed++;
+                JsonNode node = Json.parse(in);
 
-                                set.add(position);
+                try{
+                    JsonNode duration = node.findPath("routes").get(0).findValue("legs").get(0).findValue("duration").findValue("value");
 
-                            }
+                    Logger.debug("Is Missing: " + duration.isMissingNode());
+                    Logger.debug("Duration: " + duration.asInt());
+                    position.setTransitTimeToCenter(duration.asInt());
+                    position.update();
+                    failed = 0;
 
-                            in.close();
-
-
-
-
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                            set.add(position);
-                            failed++;
-                        } catch (IOException e) {
-                            Logger.error("Thread " + num + " could not open connection");
-                            set.add(position);
-                            failed++;
-                        }
-
-
-                        try {
-                            Thread.sleep(2500);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                        }
-
-
-
-                    }
-
-
+                }catch (NullPointerException e){
+                    Logger.warn("Could not parse response from: " + path);
+                    Logger.warn(node.toString());
+                    failed++;
+                    positions.add(position);
 
                 }
 
-            }).start();
+                in.close();
+
+
+                Thread.sleep(2500);
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                positions.add(position);
+            } catch (IOException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                positions.add(position);
+            } catch (InterruptedException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                positions.add(position);
+            }
 
 
         }
 
-
-//        for(Position position : positions){
-//
-//            if(position.getTransitTimeToCenter() != 0){
-//                continue;
-//            }
-//            if(failed == 20){
-//                break;
-//            }
-//
-//
-//            String path = "https://maps.googleapis.com/maps/api/directions/json?" +
-//                    //"key=" + apiKey  + "&" +
-//                    "origin=" + position.getLatitude() + "," + position.getLongitude() + "&" +
-//                    "destination=" + sthlmCentrumLat + "," + sthlmCentrumLng + "&" +
-//                    "sensor=false" +
-//                    "&departure_time=" + departure_time + "&" +
-//                    "mode=transit";
-//
-//
-//            Logger.debug("Creating URL: " + path);
-//            URL url = null;
-//            try {
-//
-////            Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("my.proxy.example.com", 3128));
-////            URLConnection yc = url.openConnection(proxy);
-//
-//                url = new URL(path);
-
-//         //       Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("195.138.65.222", 3128));
-//         //       URLConnection con = url.openConnection(proxy);
-//         //       InputStream in = con.getInputStream(); //url.openStream();
-//                InputStream in = url.openStream();
-//
-//                JsonNode node = Json.parse(in);
-//
-//                try{
-//                    JsonNode duration = node.findPath("routes").get(0).findValue("legs").get(0).findValue("duration").findValue("value");
-//
-//                    Logger.debug("Is Missing: " + duration.isMissingNode());
-//                    Logger.debug("Duration: " + duration.asInt());
-//                    position.setTransitTimeToCenter(duration.asInt());
-//                    position.update();
-//                    failed = 0;
-//
-//                }catch (NullPointerException e){
-//                    Logger.warn("Could not parse response from: " + path);
-//                    Logger.warn(node.toString());
-//                    failed++;
-//
-//                }
-//
-//                in.close();
-//
-//
-//                Thread.sleep(2200);
-//
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//            } catch (IOException e) {
-//                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//            }
-//
-//
-//        }
-//
-//        Logger.debug("Done querying: " + (double)(System.currentTimeMillis()-time)/(double)1000 + "s");
+        Logger.debug("Done querying: " + (double)(System.currentTimeMillis()-time)/(double)1000 + "s");
 
     }
 
@@ -329,21 +335,12 @@ public class BooliDownloader implements Runnable{
                     booliIds.add(listing.getBooliId());
 
 
-//                    try {
                     if(Listing.find.byId(listing.getBooliId()) == null){
                         listing.save();
                         Logger.debug("Saved booliId: " + listing.getBooliId());
                     }else{
                         Logger.debug("Listing booliId: " + listing.getBooliId() + " already existed");
                     }
-
-
-//                    }catch (PersistenceException e){
-//                        Logger.warn("Listing: " + listing.getBooliId() + " already exist in database, trying to update");
-//                        //listing.update();
-//                    }
-
-
 
                 }
 
