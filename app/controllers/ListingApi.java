@@ -22,9 +22,6 @@ public class ListingApi extends JsonController {
 //    public static Result get(int transitTimeToCenter, double roomMin, double roomMax, double priceMin, double priceMax, double areaMin, double areaMax, int offset, int len) {
     public static Result get(int transitTimeToCenter, double roomMin, double roomMax, double priceMin, double priceMax,  double areaMin, double areaMax, int offset, int len){
 
-        Logger.debug("transitTimeToCenter: " + transitTimeToCenter);
-        Logger.debug("roomMin: " + roomMin);
-        Logger.debug("roomMax: " + roomMax);
         List<Listing> listings = Listing.find
                 .where()
                     .le("location.position.transitTimeToCenter", transitTimeToCenter)
@@ -54,7 +51,7 @@ public class ListingApi extends JsonController {
 
 
 
-        Logger.debug("Result size: " + listings.size() + " of " + totalLenght);
+        Logger.debug(getTimeStanmp() + "- Result size: " + listings.size() + " of " + totalLenght);
 
         ModelWrapper wrapper = new ModelWrapper();
 
@@ -68,6 +65,8 @@ public class ListingApi extends JsonController {
 
         return ok(wrapper);
     }
+
+
 
 
 }

@@ -5,6 +5,8 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +25,17 @@ public class JsonController extends Controller{
 
     public static Status ok(Map<Object, ? extends JsonModel> models){
         return ok(Json.toJson(models));
+    }
+
+
+    public static String getTimeStanmp(){
+
+        Date date = new Date(System.currentTimeMillis());
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        return format.format(date);
+
     }
 
 }

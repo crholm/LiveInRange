@@ -27,6 +27,7 @@ a:focus {
     margin-left: -25%;
     background: rgb(24, 33, 61);
     color: #fff;
+    overflow-y: auto;
 }
 
 .header {
@@ -96,9 +97,17 @@ a:focus {
     max-height: 308px;
     height: 308px;
     overflow: hidden;
-    background-size: cover
+    background-size: cover;
+    background-position: center;
 
 
+}
+.minuteBox{
+    background: rgb(24, 33, 61);
+    margin-top: -30px;
+    width: 45%;
+    float: right;
+    text-align: center;
 }
 
 .adbox-inner{
@@ -117,6 +126,8 @@ a:focus {
 .adbox-inner tr{
     border-style: hidden;
 }
+
+
 .adbox hr{
     border-color: rgb(142, 142, 214);
 }
@@ -125,6 +136,8 @@ a:focus {
     text-align: center;
     font-size: 80%;
 }
+
+
 
 .content-subhead {
     text-transform: uppercase;
@@ -247,4 +260,34 @@ a:focus {
 
 label{
     padding-right: 5px;
+}
+
+
+
+.tooltip{display:inline;position:relative}
+.tooltip:hover{text-decoration:none}
+.tooltip:hover:after{
+    background:#111;
+    background:rgba(0,0,0,.8);
+    border-radius:5px;
+    bottom:18px;
+    color:#fff;
+    content:attr(title);
+    display:block;
+    left:50%;
+    padding:5px 15px;
+    position:absolute;
+    white-space:nowrap;
+    z-index:98
+}
+.tooltip:hover:before{
+    border:solid;
+    border-color:#111 transparent;
+    border-width:6px 6px 0 6px;
+    bottom:12px;
+    content:"";
+    display:block;
+    left:75%;
+    position:absolute;
+    z-index:99
 }

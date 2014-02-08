@@ -28,6 +28,10 @@ import java.util.concurrent.ConcurrentSkipListSet;
  */
 public class BooliDownloader implements Runnable{
 
+    final long departure_time = 1392022800;
+    final double sthlmCentrumLat = 59.3309466;
+    final double sthlmCentrumLng = 18.0592629;
+
         // NO 59.418186,18.309299
         // SW  59.262020,17.800495
 
@@ -43,7 +47,7 @@ public class BooliDownloader implements Runnable{
             downloadGoogleTimeData();
 
             try {
-                Thread.sleep(1000*60*60*24);
+                Thread.sleep(1000*60*60*6);
             } catch (InterruptedException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
@@ -52,52 +56,68 @@ public class BooliDownloader implements Runnable{
 
 
     public static String proxys[] = {
-            "78.130.201.110:8080",
-            "109.207.61.175:8090",
-            "85.214.200.215:80",
-            "80.112.143.42:80",
-            "95.211.129.17:3128",
-            "94.228.201.113:8080",
-            "46.29.78.20:3128",
-            "176.31.172.120:54321",
-            "62.253.249.150:8080",
-            "80.241.82.10:3128",
-            "176.31.172.120:54321",
-            "109.207.61.194:8090",
-            "109.207.61.165:8090",
-            "95.154.199.100:443",
-            "78.25.32.130:8086",
-            "109.196.127.35:8888",
-            "77.175.4.248:80",
-            "89.32.230.98:8080",
-            "84.22.2.101:8080",
-            "193.254.236.189:3128",
-            "193.43.93.170:9999",
-            "168.63.24.174:8118",
-            "194.141.102.126:8080",
-            "109.207.61.173:8090",
-            "77.175.36.38:80",
-            "80.193.214.233:3128",
-            "197.160.56.108:80",
-            "91.232.102.134:8080",
-            "85.33.52.218:8080",
-            "79.142.126.3:8080",
-            "95.211.129.17:3128",
-            "194.141.96.21:8080",
-            "94.154.31.24:8090",
-            "78.130.136.215:8080",
-            "109.207.61.149:8090",
-            "94.154.27.13:8090",
-            "109.207.61.152:8090",
-            "212.3.190.77:8080",
-            "94.154.31.38:8090"
+            //"218.108.170.165:82", //bad
+            //"46.48.153.54:3128",  //bad
+            "80.193.214.237:3128",
+            "211.167.105.79:80",
+            "202.202.0.163:3128",
+            //"218.108.170.167:80",  //Bad
+            "207.5.112.114:8080",
+            //"184.168.55.226:80",   //bad
+            "212.175.88.15:8080",
+           // "176.61.136.76:8080", //bad
+            "46.29.78.20:80",
+            "85.207.14.1:8888",
+            "37.206.58.158:8080",
+            "66.35.68.146:8089",
+            "176.35.77.154:3128"
+
+
+
+//            "78.130.201.110:8080",
+//            "109.207.61.175:8090",
+//            "85.214.200.215:80",
+//            "80.112.143.42:80",
+//            "95.211.129.17:3128",
+//            "94.228.201.113:8080",
+//            "46.29.78.20:3128",
+//            "176.31.172.120:54321",
+//            "62.253.249.150:8080",
+//            "80.241.82.10:3128",
+//            "176.31.172.120:54321",
+//            "109.207.61.194:8090",
+//            "109.207.61.165:8090",
+//            "95.154.199.100:443",
+//            "78.25.32.130:8086",
+//            "109.196.127.35:8888",
+//            "77.175.4.248:80",
+//            "89.32.230.98:8080",
+//            "84.22.2.101:8080",
+//            "193.254.236.189:3128",
+//            "193.43.93.170:9999",
+//            "168.63.24.174:8118",
+//            "194.141.102.126:8080",
+//            "109.207.61.173:8090",
+//            "77.175.36.38:80",
+//            "80.193.214.233:3128",
+//            "197.160.56.108:80",
+//            "91.232.102.134:8080",
+//            "85.33.52.218:8080",
+//            "79.142.126.3:8080",
+//            "95.211.129.17:3128",
+//            "194.141.96.21:8080",
+//            "94.154.31.24:8090",
+//            "78.130.136.215:8080",
+//            "109.207.61.149:8090",
+//            "94.154.27.13:8090",
+//            "109.207.61.152:8090",
+//            "212.3.190.77:8080",
+//            "94.154.31.38:8090"
     };
 
     public void downloadGoogleTimeData(){
 
-        final long departure_time = 1386579600;
-        final double sthlmCentrumLat = 59.3309466;
-        final double sthlmCentrumLng = 18.0592629;
+
 
         String apiKey = "AIzaSyCzZxV7nuN-aJDJj7TSFm3y0qYoSQ59Hd4";
         List<Position> positions = Position.find.all();
@@ -105,110 +125,7 @@ public class BooliDownloader implements Runnable{
         Logger.debug("Starting querying");
         long time = System.currentTimeMillis();
         int failed = 0;
-//
-//
-//        final ConcurrentSkipListSet<Position> set = new ConcurrentSkipListSet<>();
-//        set.addAll(positions);
-//
-//        for(int i = 0; i < proxys.length; i++){
-//            tmp=i;
-//            new Thread(new Runnable() {
-//                int num = tmp;
-//
-//                @Override
-//                public void run() {
-//                    threadsWorking++;
-//                    Logger.info("Thread " + num + " is staring");
-//                    int failed = 0;
-//
-//                    String proxyAddress = proxys[num].split(":")[0];
-//                    int port = Integer.parseInt(proxys[num].split(":")[1]);
-//
-//                    while(!set.isEmpty()){
-//
-//                        Position position = set.pollFirst();
-//
-//                        if(position.getTransitTimeToCenter() != 0){
-//                            continue;
-//                        }
-//
-//
-//                        if(failed == 3){
-//                            set.add(position);
-//                            threadsWorking--;
-//                            Logger.error("Thread " + num + " is Exiting <-------------------------------------");
-//                            break;
-//                        }
-//
-//                        String path = "http://maps.googleapis.com/maps/api/directions/json?" +
-//                                "origin=" + position.getLatitude() + "," + position.getLongitude() + "&" +
-//                                "destination=" + sthlmCentrumLat + "," + sthlmCentrumLng + "&" +
-//                                "sensor=false" +
-//                                "&departure_time=" + departure_time + "&" +
-//                                "mode=transit";
-//
-//                        URL url = null;
-//                        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyAddress, port));
-//                        try {
-//
-//                            url = new URL(path);
-//
-//
-//                            URLConnection con = url.openConnection(proxy);
-//                            InputStream in = con.getInputStream();
-//
-//                            JsonNode node = Json.parse(in);
-//
-//                            try{
-//                                JsonNode duration = node.findPath("routes").get(0).findValue("legs").get(0).findValue("duration").findValue("value");
-//                                position.setTransitTimeToCenter(duration.asInt());
-//                                position.update();
-//                                failed = 0;
-//                                Logger.debug("Thread " + num + " wrote to db");
-//
-//                            }catch (NullPointerException e){
-//                                Logger.warn("Thread: " + num + " could not parse response");//from: " + path);
-//
-//                                failed++;
-//
-//                                set.add(position);
-//
-//                            }
-//
-//                            in.close();
-//
-//
-//
-//
-//                        } catch (MalformedURLException e) {
-//                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//                            set.add(position);
-//                            failed++;
-//                        } catch (IOException e) {
-//                            Logger.error("Thread " + num + " could not open connection");
-//                            set.add(position);
-//                            failed++;
-//                        }
-//
-//
-//                        try {
-//                            Thread.sleep(2500);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//                        }
-//
-//
-//
-//                    }
-//
-//
-//
-//                }
-//
-//            }).start();
-//
-//
-//        }
+
 
 
         while(!positions.isEmpty()){
@@ -218,7 +135,9 @@ public class BooliDownloader implements Runnable{
             if(position.getTransitTimeToCenter() != 0){
                 continue;
             }
-            if(failed == 20){
+            if(failed == 5){
+                positions.add(position);
+                downloadGoogleTimeDataByProxy(positions);
                 break;
             }
 
@@ -236,14 +155,8 @@ public class BooliDownloader implements Runnable{
             URL url = null;
             try {
 
-//            Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("my.proxy.example.com", 3128));
-//            URLConnection yc = url.openConnection(proxy);
-
                 url = new URL(path);
 
-         //       Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("195.138.65.222", 3128));
-         //       URLConnection con = url.openConnection(proxy);
-         //       InputStream in = con.getInputStream(); //url.openStream();
                 InputStream in = url.openStream();
 
                 JsonNode node = Json.parse(in);
@@ -289,6 +202,110 @@ public class BooliDownloader implements Runnable{
     }
 
 
+    public void downloadGoogleTimeDataByProxy(List<Position> positions){
+        final ConcurrentSkipListSet<Position> set = new ConcurrentSkipListSet<>();
+        set.addAll(positions);
+
+        for(int i = 0; i < proxys.length; i++){
+            tmp=i;
+            new Thread(new Runnable() {
+                int num = tmp;
+
+                @Override
+                public void run() {
+                    threadsWorking++;
+                    Logger.info("Thread " + num + " is staring");
+                    int failed = 0;
+
+                    String proxyAddress = proxys[num].split(":")[0];
+                    int port = Integer.parseInt(proxys[num].split(":")[1]);
+
+                    while(!set.isEmpty()){
+
+                        Position position = set.pollFirst();
+
+                        if(position.getTransitTimeToCenter() != 0){
+                            continue;
+                        }
+
+
+                        if(failed == 3){
+                            set.add(position);
+                            threadsWorking--;
+                            Logger.error("Thread " + num + " is Exiting <---------- " + proxys[num]);
+                            break;
+                        }
+
+                        String path = "http://maps.googleapis.com/maps/api/directions/json?" +
+                                "origin=" + position.getLatitude() + "," + position.getLongitude() + "&" +
+                                "destination=" + sthlmCentrumLat + "," + sthlmCentrumLng + "&" +
+                                "sensor=false" +
+                                "&departure_time=" + departure_time + "&" +
+                                "mode=transit";
+
+                        URL url = null;
+                        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyAddress, port));
+                        try {
+
+                            url = new URL(path);
+
+
+                            URLConnection con = url.openConnection(proxy);
+                            InputStream in = con.getInputStream();
+
+                            JsonNode node = Json.parse(in);
+
+                            try{
+                                JsonNode duration = node.findPath("routes").get(0).findValue("legs").get(0).findValue("duration").findValue("value");
+                                position.setTransitTimeToCenter(duration.asInt());
+                                position.update();
+                                failed = 0;
+                                Logger.debug("Thread " + num + " wrote to db");
+
+                            }catch (NullPointerException e){
+                                Logger.warn("Thread: " + num + " could not parse response");//from: " + path);
+
+                                failed++;
+
+                                set.add(position);
+
+                            }
+
+                            in.close();
+
+
+
+
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                            set.add(position);
+                            failed++;
+                        } catch (IOException e) {
+                            Logger.error("Thread " + num + " could not open connection");
+                            set.add(position);
+                            failed++;
+                        }
+
+
+                        try {
+                            Thread.sleep(2500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        }
+
+
+
+                    }
+
+
+
+                }
+
+            }).start();
+
+
+        }
+    }
 
     public void downloadBooliData(){
 

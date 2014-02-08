@@ -2,6 +2,8 @@
 
 LIRCtrls.controller('IndexCtrl',  function ($scope, Listing) {
 
+
+
     $scope.reverse = false;
     $scope.predicate = 'listPrice';
     $scope.listings = [];
@@ -20,7 +22,7 @@ LIRCtrls.controller('IndexCtrl',  function ($scope, Listing) {
     $scope.var.offset = 0;
     $scope.var.len = 100;
     $scope.isSearching = false;
-
+    $scope.sanityCheckBool = true;
 
 
     $scope.search = function(){
@@ -28,7 +30,7 @@ LIRCtrls.controller('IndexCtrl',  function ($scope, Listing) {
         $scope.listings = [];
 
         if(typeof $scope.transitTimeToCenter != 'undefined'){
-            $scope.var.transitTimeToCenter = $scope.transitTimeToCenter*60;
+            $scope.var.transitTimeToCenter = $scope.transitTimeToCenter.replace("min","")*60;
         }else if($scope.transitTimeToCenter == ""){
             delete $scope.var.transitTimeToCenter;
         }
@@ -109,6 +111,43 @@ LIRCtrls.controller('IndexCtrl',  function ($scope, Listing) {
 
     }
 
+
+    $scope.intrestRate = 0.0263
+    $scope.cashInvestmentRate = 0.15;
+
+    $scope.topLoneRate = 0.12;
+    $scope.topLoneAmortYears = 10;
+
+    $scope.bottomLoneRate = 0.88;
+    $scope.bottomLoneAmortYears = 10;
+
+    $scope.taxDeduction = 0.3;
+
+    $scope.monthlyRunningCost = 750;
+
+    $scope.getAproxLivingCost = function(listing){
+
+        if(typeof listing.aproxLivingCost != 'undefined'){
+            return $scope.prettyNumbers(listing.aproxLivingCost);
+        }
+
+        var lone = listing.listPrice*(1-$scope.cashInvestmentRate);
+        var topLone = lone*$scope.topLoneRate;
+        var bottomLone = lone*$scope.bottomLoneRate;
+
+        var intrest = lone*$scope.intrestRate/12;
+        var ammort =  topLone/$scope.topLoneAmortYears/12;
+
+
+        var p = listing.rent + intrest + ammort + $scope.monthlyRunningCost - (intrest*$scope.taxDeduction);
+
+        listing.aproxLivingCost = p;
+
+
+        return $scope.prettyNumbers(p);
+
+    }
+
     $scope.getImgUrl = function(listing){
         return "http://api.bcdn.se/cache/primary_" + listing.booliId + "_600x600.jpg";
 
@@ -125,6 +164,21 @@ LIRCtrls.controller('IndexCtrl',  function ($scope, Listing) {
             return true;
         }
         return !(listing.listPrice == 0 || typeof listing.livingArea == 'undefined' || listing.livingArea == 0 || listing.rooms == 0 );
+    }
+
+
+    $scope.spanOffset = 0;
+    $scope.getBoxSpanClass = function(index){
+        return "pure-u-1-3";
+        if(index == 0){
+            $scope.spanOffset = 0;
+        }
+
+        if(index%9 > 1|| ($scope.spanOffset+index)%3 > 1){
+            return "pure-u-1-3";
+        }
+        $scope.spanOffset++;
+        return "pure-u-2-3"
     }
 
 
