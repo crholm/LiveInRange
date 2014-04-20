@@ -1,131 +1,127 @@
-<div class="pure-g-r" id="layout" ng-controller="SearchCtrl">
-    <div class="sidebar pure-u">
-        <header class="header">
-            <hgroup>
-                <h1 class="brand-title">Hitta ett hem</h1>
-                <h2 class="brand-tagline">Hjälper dig att ha nära till centrum</h2>
-            </hgroup>
-            <form class="pure-form pure-g-r">
-                <fieldset>
-                    <p>
-                        <label class="pure-u-1-2">Max tid från centrum</label>
-                        <input class="pure-u-1-2" type="text" placeholder="ex. 16 min" ng-model="transitTimeToCenter">
-                    </p>
-                    <p>
-                        <label class="pure-u-1-2">Antal rum </label>
-                        <input class="pure-u-1-4" type="text" placeholder="min" ng-model="var.roomMin"> <input class="pure-u-1-4" type="text" placeholder="max" ng-model="var.roomMax">
-                    </p>
-                    <p>
-                        <label class="pure-u-1-2">Pris </label>
-                        <input class="pure-u-1-4" type="text" placeholder="min" ng-model="var.priceMin"> <input class="pure-u-1-4" type="text" placeholder="max" ng-model="var.priceMax">
-                    </p>
-                    <p>
-                        <label class="pure-u-1-2">Area </label>
-                        <input class="pure-u-1-4" type="text" placeholder="min" ng-model="var.areaMin"> <input class="pure-u-1-4" type="text" placeholder="max" ng-model="var.areaMax">
-                    </p>
-
-                    <p style="margin-bottom: 0">
-                        <button type="submit" class="pure-button pure-button-primary pure-u-2-4" ng-click="appendSearch()" ng-disabled="disableAppendSearch() || isSearching ">Ladda fler</button>
-
-                        <button type="submit" style="padding: 0 0 0 0" class="pure-button pure-button-primary pure-u-1-5" ng-click="search()" ng-disabled="isSearching">
-                            <div ng-hide="isSearching" style="padding: 8px 0 8px 0;">Sök</div>
-                            <img src="img/loading.gif" style="max-width: 30px; margin: 2px 0 -1px 0; padding: 0 0 0 0;" ng-show="isSearching">
-                        </button>
-
-                        <br/>
-                        <label class="pure-u-1-2"><span ng-show="listings.length">{{listings.length}} av {{result.totalLenght}}</span></label>
-                    </p>
-                </fieldset>
-            </form>
-            <!-- <h2 class="brand-tagline">
-                Sortera efter
-                <a style="margin-top: 0;" class="pure-button icon-small" ng-click="reverse=!reverse" href="#">
-                    <i class="fa fa-sort-amount-asc" ng-show="!reverse"></i>
-                    <i class="fa fa-sort-amount-desc" ng-show="reverse"></i>
-                 </a>
-            </h2>
-            <nav class="nav">
-                <ul class="nav-list">
-                    <li class="nav-item">
-                        <a class="pure-button" ng-click="predicate = 'location.position.transitTimeToCenter';" href="#" ng-disabled="predicate == 'location.position.transitTimeToCenter'">Restid
-
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="pure-button" ng-click="predicate = 'listPrice';" href="#" ng-disabled="predicate == 'listPrice'">Pris
-
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="pure-button" ng-click="predicate = 'costPerM2';" href="#" ng-disabled="predicate == 'costPerM2'">Pris/m2
-
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="pure-button" ng-click="predicate = 'rent';" href="#" ng-disabled="predicate == 'rent';">Hyra
-
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="pure-button" ng-click="predicate = 'aproxLivingCost';" href="#" ng-disabled="predicate == 'aproxLivingCost';">Kostnad/mån
-
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="pure-button" ng-click="predicate = 'rooms';" href="#" ng-disabled="predicate == 'rooms'">Rum
-
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="pure-button" ng-click="predicate = 'livingArea';" href="#" ng-disabled="predicate == 'livingArea'">Area
-                        </a>
-                    </li>
-                </ul>
-            </nav> -->
-    <!--             <div>
-              <label><input id="remember" type="checkbox" ng-model="sanityCheckBool"/>Ta bort annonser med pris 0 </label>
-            </div>
-        -->    </header>
-    </div>
-    <div ng-class="getBoxSpanClass($index)" ng-repeat="listing in listings | filter:sanityCheck | orderBy:predicate:reverse">
-        <div class="adbox" >
-            <a ng-href="{{listing.url}}" target="_blank">
-                <div class="imagebox" style="background-image: url('{{getImgUrl(listing)}}')"></div>
-            </a>
-            <div class="minuteBox">
-                <h1 style="margin-bottom: 0; margin-top: 0px" >{{getTransitTime(listing)}}min</h1>
-            </div>
-            <div class="adbox-inner">
-                <h2 title="{{listing.location.region.municipalityName}}" class="tooltip">{{listing.location.address.streetAddress}}</h2>
-                <div class="pure-g-r">
-                    <div class="pure-u-1">
-                        <table class="pure-table pure-table-horizontal">
-                            <tbody>
-                                <tr>
-
-                                </tr>
-                                <tr>
-                                    <td style="padding-left: 0" >{{ prettyNumbers(listing.listPrice) }} kr</td>
-                                    <td style="padding-right: 0" >{{ getCostPerM2(listing) }} kr/m2</td>
-                                </tr>
-
-                                <tr>
-                                    <td style="padding-left: 0">{{listing.rooms}} rum </td>
-                                    <td style="padding-right: 0">{{listing.livingArea}} m2</td>
-                                </tr>
-
-                                <tr>
-                                    <td style="padding-left: 0">Hyra {{prettyNumbers(listing.rent)}} kr</td>
-                                    <!--<td>Byggt: {{listing.constructionYear}}</td>-->
-                                    <td style="padding-right: 0">Kostnad ~{{ getAproxLivingCost(listing)}} kr/mån</td>
-                                </tr>
-
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+<div class="search" ng-controller="SearchCtrl">
+  <div class="search-side col-sm-3">
+    <h1 class="brand-title">Hitta ett hem</h1>
+    <h2 class="brand-tagline">Hjälper dig att ha nära till centrum</h2>
+    <form class="form-horizontal" role="form">
+      <div class="form-group">
+        <label class="col-md-6 control-label">Max tid från centrum</label>
+        <div class="col-md-6">
+          <input class="form-control" type="text" placeholder="ex. 16 min" ng-model="transitTimeToCenter">
         </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-6 control-label">Antal rum </label>
+        <div class="col-md-6">
+          <input class="form-control" type="text" placeholder="min" ng-model="var.roomMin"> <input class="form-control" type="text" placeholder="max" ng-model="var.roomMax">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-6 control-label">Pris </label>
+        <div class="col-md-6">
+          <input class="form-control" type="text" placeholder="min" ng-model="var.priceMin"> <input class="form-control" type="text" placeholder="max" ng-model="var.priceMax">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-6 control-label">Area </label>
+        <div class="col-md-6">
+          <input class="form-control" type="text" placeholder="min" ng-model="var.areaMin"> <input class="form-control" class="pure-u-1-4" type="text" placeholder="max" ng-model="var.areaMax">
+        </div>
+      </div>
+      <div class="form-group">
+        <button type="submit" ng-click="appendSearch()" ng-disabled="disableAppendSearch() || isSearching ">Ladda fler</button>
+        <button type="submit" style="padding: 0 0 0 0" class="pure-button pure-button-primary pure-u-1-5" ng-click="search()" ng-disabled="isSearching">
+          <div ng-hide="isSearching">Sök</div>
+          <img src="img/loading.gif" ng-show="isSearching">
+        </button>
+        <br/>
+        <label><span ng-show="listings.length">{{listings.length}} av {{result.totalLenght}}</span></label>
+      </div>
+    </form>
+<!-- 
+      <h2 class="brand-tagline">
+        Sortera efter
+        <a class="pure-button icon-small" ng-click="reverse=!reverse" href="#">
+          <i class="fa fa-sort-amount-asc" ng-show="!reverse"></i>
+          <i class="fa fa-sort-amount-desc" ng-show="reverse"></i>
+         </a>
+      </h2>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a class="pure-button" ng-click="predicate = 'location.position.transitTimeToCenter';" href="#" ng-disabled="predicate == 'location.position.transitTimeToCenter'">Restid
+
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="pure-button" ng-click="predicate = 'listPrice';" href="#" ng-disabled="predicate == 'listPrice'">Pris
+
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="pure-button" ng-click="predicate = 'costPerM2';" href="#" ng-disabled="predicate == 'costPerM2'">Pris/m2
+
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="pure-button" ng-click="predicate = 'rent';" href="#" ng-disabled="predicate == 'rent';">Hyra
+
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="pure-button" ng-click="predicate = 'aproxLivingCost';" href="#" ng-disabled="predicate == 'aproxLivingCost';">Kostnad/mån
+
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="pure-button" ng-click="predicate = 'rooms';" href="#" ng-disabled="predicate == 'rooms'">Rum
+
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="pure-button" ng-click="predicate = 'livingArea';" href="#" ng-disabled="predicate == 'livingArea'">Area
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div>
+        <label><input id="remember" type="checkbox" ng-model="sanityCheckBool"/>Ta bort annonser med pris 0 </label>
+      </div> -->
+  </div>
+
+  <!-- <div ng-class="getBoxSpanClass($index)" ng-repeat="listing in listings | filter:sanityCheck | orderBy:predicate:reverse">
+    <div class="adbox" >
+      <a ng-href="{{listing.url}}" target="_blank">
+        <div class="imagebox" style="background-image: url('{{getImgUrl(listing)}}')"></div>
+      </a>
+      <div class="minuteBox">
+        <h1 style="margin-bottom: 0; margin-top: 0px" >{{getTransitTime(listing)}}min</h1>
+      </div>
+      <div class="adbox-inner">
+        <h2 title="{{listing.location.region.municipalityName}}" class="tooltip">{{listing.location.address.streetAddress}}</h2>
+        <div>
+          <div>
+            <table>
+              <tbody>
+                <tr>
+                </tr>
+                <tr>
+                  <td>{{ prettyNumbers(listing.listPrice) }} kr</td>
+                  <td>{{ getCostPerM2(listing) }} kr/m2</td>
+                </tr>
+                <tr>
+                  <td>{{listing.rooms}} rum </td>
+                  <td>{{listing.livingArea}} m2</td>
+                </tr>
+                <tr>
+                  <td>Hyra {{prettyNumbers(listing.rent)}} kr</td>
+                  <td>Byggt: {{listing.constructionYear}}</td>
+                  <td>Kostnad ~{{ getAproxLivingCost(listing)}} kr/mån</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
+  </div> -->
 </div>

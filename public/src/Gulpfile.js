@@ -6,9 +6,10 @@ var gulp  = require('gulp'),
     htmlbuild = require('gulp-htmlbuild'),
     cssmin = require('gulp-cssmin'),
     uglify = require('gulp-uglify'),
+    server = require('gulp-livereload')(),
     ngmin = require('gulp-ngmin'),
     less = require('gulp-less'),
-    watch = require('gulp-watch'),
+    autoprefixer = require('gulp-autoprefixer'),
     html2js = require('gulp-html2js'),
     es = require('event-stream');
 
@@ -37,6 +38,7 @@ var gulpSrc = function (opts) {
 gulp.task('less', function() {
   gulp.src('less/style.less')
     .pipe(less())
+    .pipe(autoprefixer())
     .pipe(gulp.dest('../'));
 })
 
@@ -55,7 +57,11 @@ gulp.task('js', function() {
 
         // write js include tag all.js to index.html
         block.end(jsOutFilename);
-      })
+      }),
+      // remove livereload tag
+      remove: function (block) {
+        block.end();
+      },
     }))
     .pipe(gulp.dest(buildPath));
 })
@@ -76,6 +82,8 @@ gulp.task('build', ['less', 'ngt', 'js'], function() {
 });
 
 gulp.task('default', function () {
-  gulp.watch('less/**/*.less', ['less']);
+  gulp.watch('less/**/*.less', ['less']).on('change', function(file) {
+    server.changed(file.path);
+  });
   gulp.watch('app/views/**/*.ngt', ['ngt']);
 });
