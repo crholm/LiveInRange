@@ -1,1 +1,10 @@
-<h1>{{test}}</h1>
+<div class="container-fluid">
+  <div class="row">
+    <div class="home-search col-sm-8 col-sm-push-2">
+      <p>
+        Jag söker en <span>etta</span> på 
+        <span>40 kvadrat</span> för högst <span>2 000 000 kr</span> som ligger max <span>20 minuter</span> från <span>T-Centralen</span>
+      </p>
+    </div>
+  </div>
+</div>

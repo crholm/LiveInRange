@@ -1,0 +1,25 @@
+.home-search {
+  color: white;
+  text-align: center;
+  font-family: Roboto;
+  font-weight: 100;
+  font-style: italic;
+  padding-top: 30px;
+  font-size: 1.5em;
+
+  @media (min-width: @screen-sm-min) {
+    padding-top: 250px;
+    font-size: 2.1em;
+    line-height: 1.8em;
+  }
+
+  span {
+    transition: background-color 0.2s;
+    background-color: rgba(0,0,30, 0.5);
+    padding: 9px;
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(0,0,30, 0.6);
+    }
+  }
+}

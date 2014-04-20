@@ -1,4 +1,5 @@
 @import '//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css';
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,700,900,500,500italic,400italic,300italic,300,900italic,700italic,100italic,100);
 /*! normalize.css v3.0.0 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -5787,6 +5788,15 @@ button.close {
     display: none !important;
   }
 }
+body {
+  background: url('img/bg.jpg') top center;
+}
+@media (min-width: 768px) {
+  body {
+    -webkit-background-size: cover;
+    background-size: cover;
+  }
+}
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -5803,6 +5813,32 @@ a:focus {
 input.form-control {
   border-radius: 0;
   border: none;
+}
+.home-search {
+  color: white;
+  text-align: center;
+  font-family: Roboto;
+  font-weight: 100;
+  font-style: italic;
+  padding-top: 30px;
+  font-size: 1.5em;
+}
+@media (min-width: 768px) {
+  .home-search {
+    padding-top: 250px;
+    font-size: 2.1em;
+    line-height: 1.8em;
+  }
+}
+.home-search span {
+  -webkit-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+  background-color: rgba(0, 0, 30, 0.5);
+  padding: 9px;
+}
+.home-search span:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 30, 0.6);
 }
 /* LAYOUT CSS */
 .search {

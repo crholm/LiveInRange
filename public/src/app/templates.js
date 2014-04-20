@@ -3,7 +3,16 @@ try { app = angular.module("app/views/home.ngt"); }
 catch(err) { app = angular.module("app/views/home.ngt", []); }
 app.run(["$templateCache", function($templateCache) {
   $templateCache.put("app/views/home.ngt",
-    "<h1>{{test}}</h1>");
+    "<div class=\"container-fluid\">\n" +
+    "  <div class=\"row\">\n" +
+    "    <div class=\"home-search col-sm-8 col-sm-push-2\">\n" +
+    "      <p>\n" +
+    "        Jag söker en <span>etta</span> på \n" +
+    "        <span>40 kvadrat</span> för högst <span>2 000 000 kr</span> som ligger max <span>20 minuter</span> från <span>T-Centralen</span>\n" +
+    "      </p>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "</div>");
 }]);
 })();
 
