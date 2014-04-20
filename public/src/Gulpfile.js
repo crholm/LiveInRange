@@ -82,8 +82,9 @@ gulp.task('build', ['less', 'ngt', 'js'], function() {
 });
 
 gulp.task('default', function () {
-  gulp.watch('less/**/*.less', ['less']).on('change', function(file) {
+  gulp.watch('less/**/*.less', ['less']);
+  gulp.watch('app/views/**/*.ngt', ['ngt']);
+  gulp.watch('../**/*.css').on('change', function(file) {
     server.changed(file.path);
   });
-  gulp.watch('app/views/**/*.ngt', ['ngt']);
 });

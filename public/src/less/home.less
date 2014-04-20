@@ -8,7 +8,7 @@
   font-size: 1.5em;
 
   @media (min-width: @screen-sm-min) {
-    padding-top: 250px;
+    padding-top: 200px;
     font-size: 2.1em;
     line-height: 1.8em;
   }
@@ -20,6 +20,28 @@
     &:hover {
       cursor: pointer;
       background-color: rgba(0,0,30, 0.6);
+    }
+  }
+
+  .btn {
+    transition: background-color 0.2s, transform 0.2s, color 0.2s;
+    background: transparent;
+    border: 1px solid white;
+    font-size: .9em;
+    font-style: normal;
+    font-weight: 100;
+    padding: 0;
+    margin-top: 50px;
+    height: 100px;
+    width: 100px;
+    border-radius: 100px;
+    text-align: center;
+    color: white;
+
+    &:hover {
+      background-color: white;
+      color: @base-blue;
+      transform: scale(1.2);
     }
   }
 

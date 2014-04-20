@@ -18,6 +18,7 @@ app.run(["$templateCache", function($templateCache) {
     "         från \n" +
     "        <span data-template=\"app/views/templates/popover-home.ngt\" data-animation=\"am-flip-x\" bs-popover=\"popover.transitStop\">{{query.transitStop}}</span>\n" +
     "      </p>\n" +
+    "      <button class=\"btn btn-default\">Hitta</button>\n" +
     "    </div>\n" +
     "  </div>\n" +
     "</div>");
