@@ -1,6 +1,12 @@
 # LiveInRange
 
-Asset pipeline for development:
+Setup front end development environment:
+```
+$ cd public/src/
+$ npm install
+```
+
+Watch and process assets during development:
 ```
 $ gulp
 ```
