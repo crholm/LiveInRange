@@ -3,12 +3,20 @@ try { app = angular.module("app/views/home.ngt"); }
 catch(err) { app = angular.module("app/views/home.ngt", []); }
 app.run(["$templateCache", function($templateCache) {
   $templateCache.put("app/views/home.ngt",
-    "<div class=\"container-fluid\">\n" +
+    "<div class=\"container-fluid\" ng-controller=\"HomeCtrl\">\n" +
     "  <div class=\"row\">\n" +
     "    <div class=\"home-search col-sm-8 col-sm-push-2\">\n" +
     "      <p>\n" +
-    "        Jag söker en <span>etta</span> på \n" +
-    "        <span>40 kvadrat</span> för högst <span>2 000 000 kr</span> som ligger max <span>20 minuter</span> från <span>T-Centralen</span>\n" +
+    "        Jag söker en \n" +
+    "        <span data-template=\"app/views/templates/popover-home.ngt\" data-animation=\"am-flip-x\" bs-popover=\"popover.rooms\">{{query.rooms}}</span>\n" +
+    "         på \n" +
+    "        <span data-template=\"app/views/templates/popover-home.ngt\" data-animation=\"am-flip-x\" bs-popover=\"popover.area\">{{query.area}}</span>\n" +
+    "         för högst \n" +
+    "        <span data-template=\"app/views/templates/popover-home.ngt\" data-animation=\"am-flip-x\" bs-popover=\"popover.price\" data-placement=\"left\">{{query.price}}</span>\n" +
+    "         som ligger max \n" +
+    "        <span data-template=\"app/views/templates/popover-home.ngt\" data-animation=\"am-flip-x\" bs-popover=\"popover.transitTime\">{{query.transitTime}}</span>\n" +
+    "         från \n" +
+    "        <span data-template=\"app/views/templates/popover-home.ngt\" data-animation=\"am-flip-x\" bs-popover=\"popover.transitStop\">{{query.transitStop}}</span>\n" +
     "      </p>\n" +
     "    </div>\n" +
     "  </div>\n" +
@@ -147,6 +155,24 @@ app.run(["$templateCache", function($templateCache) {
     "      </div>\n" +
     "    </div>\n" +
     "  </div> -->\n" +
+    "</div>");
+}]);
+})();
+
+(function(module) {
+try { app = angular.module("app/views/templates/popover-home.ngt"); }
+catch(err) { app = angular.module("app/views/templates/popover-home.ngt", []); }
+app.run(["$templateCache", function($templateCache) {
+  $templateCache.put("app/views/templates/popover-home.ngt",
+    "<div class=\"popover\">\n" +
+    "  <div class=\"arrow\"></div>\n" +
+    "  <div class=\"popover-content\">\n" +
+    "    <ul>\n" +
+    "      <li ng-repeat=\"item in items\">\n" +
+    "        <a href=\"#\">{{item}} {{unit}}</a>\n" +
+    "      </li>\n" +
+    "    </ul>\n" +
+    "  </div>\n" +
     "</div>");
 }]);
 })();

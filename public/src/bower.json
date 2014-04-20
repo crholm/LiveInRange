@@ -6,6 +6,7 @@
     "angular-resource": "~1.2.16",
     "angular-ui-router": "~0.2.10",
     "angular-strap": "~2.0.0",
-    "bootstrap": "~3.1.1"
+    "bootstrap": "~3.1.1",
+    "angular-motion": "~0.3.2"
   }
 }

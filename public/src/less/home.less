@@ -22,4 +22,36 @@
       background-color: rgba(0,0,30, 0.6);
     }
   }
+
+  .popover {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    color: black;
+    padding: 0;
+
+    &.right > .arrow {
+      border-right: none;
+    }
+
+    .popover-content {
+      padding: 0;
+    }
+
+    ul {
+      li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        a {
+          padding: 10px 15px;
+          display: block;
+          line-height: 1.2em;
+          &:hover {
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
 }

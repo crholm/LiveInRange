@@ -1,0 +1,10 @@
+<div class="popover">
+  <div class="arrow"></div>
+  <div class="popover-content">
+    <ul>
+      <li ng-repeat="item in items">
+        <a href="#">{{item}} {{unit}}</a>
+      </li>
+    </ul>
+  </div>
+</div>

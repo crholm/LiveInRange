@@ -1,9 +1,17 @@
-<div class="container-fluid">
+<div class="container-fluid" ng-controller="HomeCtrl">
   <div class="row">
     <div class="home-search col-sm-8 col-sm-push-2">
       <p>
-        Jag söker en <span>etta</span> på 
-        <span>40 kvadrat</span> för högst <span>2 000 000 kr</span> som ligger max <span>20 minuter</span> från <span>T-Centralen</span>
+        Jag söker en 
+        <span data-template="app/views/templates/popover-home.ngt" data-animation="am-flip-x" bs-popover="popover.rooms">{{query.rooms}}</span>
+         på 
+        <span data-template="app/views/templates/popover-home.ngt" data-animation="am-flip-x" bs-popover="popover.area">{{query.area}}</span>
+         för högst 
+        <span data-template="app/views/templates/popover-home.ngt" data-animation="am-flip-x" bs-popover="popover.price" data-placement="left">{{query.price}}</span>
+         som ligger max 
+        <span data-template="app/views/templates/popover-home.ngt" data-animation="am-flip-x" bs-popover="popover.transitTime">{{query.transitTime}}</span>
+         från 
+        <span data-template="app/views/templates/popover-home.ngt" data-animation="am-flip-x" bs-popover="popover.transitStop">{{query.transitStop}}</span>
       </p>
     </div>
   </div>

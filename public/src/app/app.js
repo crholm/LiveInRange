@@ -7,6 +7,7 @@
 angular.module('LIR', [
   // NG
   'ui.router',
+  'ngAnimate',
 
   // Libs
   'mgcrea.ngStrap', // angular-strap
@@ -14,6 +15,9 @@ angular.module('LIR', [
   // Views
   'app/views/home.ngt',
   'app/views/search.ngt',
+
+  // Templates
+  'app/views/templates/popover-home.ngt',
 
   // LIR
   'LIR.controllers', 
