@@ -1,0 +1,20 @@
+{
+  "name": "LiveInRange",
+  "version": "0.0.0",
+  "dependencies": {},
+  "devDependencies": {
+    "event-stream": "~3.1.2",
+    "gulp": "~3.6.1",
+    "gulp-concat": "^2.2.0",
+    "gulp-cssmin": "^0.1.4",
+    "gulp-html2js": "^0.1.0",
+    "gulp-htmlbuild": "~0.2.0",
+    "gulp-less": "^1.2.3",
+    "gulp-ngmin": "^0.2.0",
+    "gulp-uglify": "^0.2.1",
+    "gulp-watch": "^0.6.2"
+  },
+  "scripts": {
+    "postinstall": "bower install"
+  }
+}

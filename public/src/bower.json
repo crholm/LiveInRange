@@ -1,0 +1,11 @@
+{
+  "name": "LiveInRange",
+  "version": "0.0.0",
+  "devDependencies": {
+    "angular": "~1.2.16",
+    "angular-resource": "~1.2.16",
+    "angular-ui-router": "~0.2.10",
+    "angular-strap": "~2.0.0",
+    "bootstrap": "~3.1.1"
+  }
+}

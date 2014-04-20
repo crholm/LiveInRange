@@ -18,3 +18,6 @@ test-result
 server.pid
 *.iml
 *.eml
+
+*.sublime-*
+node_modules
