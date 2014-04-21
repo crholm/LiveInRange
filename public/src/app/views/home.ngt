@@ -13,7 +13,7 @@
          från 
         <span data-template="app/views/templates/popover-home.ngt" data-animation="am-flip-x" bs-popover="popover.transitStop">{{query.transitStop}}</span>
       </p>
-      <button class="btn btn-default">Hitta</button>
+      <button class="btn btn-default" ng-click="search()">Hitta</button>
     </div>
   </div>
 </div>

@@ -1,5 +1,5 @@
 <div class="search" ng-controller="SearchCtrl">
-  <div class="search-side col-sm-3">
+  <div class="search-side">
     <h1 class="brand-title">Hitta ett hem</h1>
     <h2 class="brand-tagline">Hjälper dig att ha nära till centrum</h2>
     <form class="form-horizontal" role="form">

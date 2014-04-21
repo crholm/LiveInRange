@@ -1,4 +1,4 @@
-angular.module('LIR.controllers').controller('HomeCtrl', function ($scope, $templateCache) {
+angular.module('LIR.controllers').controller('HomeCtrl', function ($scope, $location) {
 
   if (!Array.hasOwnProperty('getRandomItem')) {
     Array.prototype.getRandomItem = function() {
@@ -36,4 +36,8 @@ angular.module('LIR.controllers').controller('HomeCtrl', function ($scope, $temp
     transitTime: $scope.popover.transitTime.items.getRandomItem() + ' ' + $scope.popover.transitTime.unit,
     transitStop: $scope.popover.transitStop.items.getRandomItem() + ' ' + $scope.popover.transitStop.unit
   };
+
+  $scope.search = function() {
+    $location.path('/search');
+  }
 })

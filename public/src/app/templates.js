@@ -18,7 +18,7 @@ app.run(["$templateCache", function($templateCache) {
     "         från \n" +
     "        <span data-template=\"app/views/templates/popover-home.ngt\" data-animation=\"am-flip-x\" bs-popover=\"popover.transitStop\">{{query.transitStop}}</span>\n" +
     "      </p>\n" +
-    "      <button class=\"btn btn-default\">Hitta</button>\n" +
+    "      <button class=\"btn btn-default\" ng-click=\"search()\">Hitta</button>\n" +
     "    </div>\n" +
     "  </div>\n" +
     "</div>");
@@ -31,7 +31,7 @@ catch(err) { app = angular.module("app/views/search.ngt", []); }
 app.run(["$templateCache", function($templateCache) {
   $templateCache.put("app/views/search.ngt",
     "<div class=\"search\" ng-controller=\"SearchCtrl\">\n" +
-    "  <div class=\"search-side col-sm-3\">\n" +
+    "  <div class=\"search-side\">\n" +
     "    <h1 class=\"brand-title\">Hitta ett hem</h1>\n" +
     "    <h2 class=\"brand-tagline\">Hjälper dig att ha nära till centrum</h2>\n" +
     "    <form class=\"form-horizontal\" role=\"form\">\n" +
