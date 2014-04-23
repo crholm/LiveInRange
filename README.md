@@ -19,3 +19,5 @@ Get [gulp](https://github.com/gulpjs/gulp):
 ```bash
 npm install -g gulp
 ```
+
+Rename ```conf/application.example.conf``` to ```conf/application.conf``` and add your own database credentials for local development.
