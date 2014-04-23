@@ -6,13 +6,15 @@
 // fonts
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,700,900,500,500italic,400italic,300italic,300,900italic,700italic,100italic,100);
 
-// setup
+// config
 @import 'globals/variables.less';
 
-// styles
+// base
 @import 'base.less';
-@import 'home.less';
-@import 'search.less';
+
+// modules
+@import 'modules/home.less';
+@import 'modules/search.less';
 
 /* LAYOUT CSS */
 
@@ -21,7 +23,7 @@ html {
 }
 
 body {
-  
+
 }
 
 [ui-view].ng-enter, [ui-view].ng-leave {
@@ -36,23 +38,19 @@ body {
 [ui-view].ng-enter {
   opacity: 0;
   transform: scale(.8);
-  // transform: translateZ(-400px);
 }
 
 [ui-view].ng-enter-active {
   opacity: 1;
   transform: scale(1);
-  // transform: translateZ(0px);
 }
 
 [ui-view].ng-leave {
   opacity: 1; 
   transform: scale(1);
-  // transform: translateZ(0px);
 }
 
 [ui-view].ng-leave-active {
   opacity: 0;
   transform: scale(1.2);
-  // transform: translateZ(400px);
 }

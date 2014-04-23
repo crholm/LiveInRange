@@ -8,7 +8,7 @@
 db
 log
 logs
-modules
+# modules
 precompiled
 project/project
 project/target
@@ -20,7 +20,10 @@ server.pid
 *.eml
 
 *.sublime-*
-node_modules
 
-# ignore DB credentials
+# Ignore external packages
+node_modules
+bower_components
+
+# Ignore DB credentials
 application.conf
