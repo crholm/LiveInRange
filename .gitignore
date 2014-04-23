@@ -21,3 +21,6 @@ server.pid
 
 *.sublime-*
 node_modules
+
+# ignore DB credentials
+application.conf
