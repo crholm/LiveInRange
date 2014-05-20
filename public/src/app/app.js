@@ -12,10 +12,6 @@ angular.module('LIR', [
   // Libs
   'mgcrea.ngStrap', // angular-strap
 
-  // Views
-  'app/views/home.ngt',
-  'app/views/search.ngt',
-
   // html2js templates
   'templates',
 

@@ -1,7 +1,8 @@
 (function(module) {
-try { app = angular.module("app/views/home.ngt"); }
-catch(err) { app = angular.module("app/views/home.ngt", []); }
+try { app = angular.module("templates"); }
+catch(err) { app = angular.module("templates", []); }
 app.run(["$templateCache", function($templateCache) {
+  "use strict";
   $templateCache.put("app/views/home.ngt",
     "<div class=\"container-fluid\" ng-controller=\"HomeCtrl\">\n" +
     "  <div class=\"row\">\n" +
@@ -26,9 +27,10 @@ app.run(["$templateCache", function($templateCache) {
 })();
 
 (function(module) {
-try { app = angular.module("app/views/search.ngt"); }
-catch(err) { app = angular.module("app/views/search.ngt", []); }
+try { app = angular.module("templates"); }
+catch(err) { app = angular.module("templates", []); }
 app.run(["$templateCache", function($templateCache) {
+  "use strict";
   $templateCache.put("app/views/search.ngt",
     "<div class=\"search\" ng-controller=\"SearchCtrl\">\n" +
     "  <div class=\"search-side\">\n" +
@@ -161,9 +163,10 @@ app.run(["$templateCache", function($templateCache) {
 })();
 
 (function(module) {
-try { app = angular.module("app/views/templates/popover-home.ngt"); }
-catch(err) { app = angular.module("app/views/templates/popover-home.ngt", []); }
+try { app = angular.module("templates"); }
+catch(err) { app = angular.module("templates", []); }
 app.run(["$templateCache", function($templateCache) {
+  "use strict";
   $templateCache.put("app/views/templates/popover-home.ngt",
     "<div class=\"popover\">\n" +
     "  <div class=\"arrow\"></div>\n" +
