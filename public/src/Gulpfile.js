@@ -68,7 +68,10 @@ gulp.task('js', function() {
 
 gulp.task('ngt', function() {
   gulp.src('app/views/**/*.ngt')
-    .pipe(html2js())
+    .pipe(html2js({
+      outputModuleName: 'templates',
+      useStrict: true
+    }))
     .pipe(concat('templates.js'))
     .pipe(gulp.dest('app'));
 })

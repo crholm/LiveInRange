@@ -16,8 +16,8 @@ angular.module('LIR', [
   'app/views/home.ngt',
   'app/views/search.ngt',
 
-  // Templates
-  'app/views/templates/popover-home.ngt',
+  // html2js templates
+  'templates',
 
   // LIR
   'LIR.controllers', 
@@ -25,7 +25,7 @@ angular.module('LIR', [
 ])
 
 .config(function($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/home');
+  $urlRouterProvider.otherwise('/');
   $stateProvider
     .state('home', {
       url: '/',
