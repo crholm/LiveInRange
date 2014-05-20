@@ -1,5 +1,10 @@
 git checkout -b deploy
 
+if [[ `git symbolic-ref HEAD` != "refs/heads/deploy" ]]; then
+  echo "Can't deploy when branch 'deploy' already exists. Please delete it."
+  exit 1
+fi
+
 # clear all source files and put contens of dist/ into public/
 rm -rf public/src
 rm public/index.html
