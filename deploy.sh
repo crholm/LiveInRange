@@ -18,5 +18,4 @@ git push deploy deploy -f
 
 # clear deploy stuff
 git checkout master
-rm public/script.js # we don't use this
-# git branch -D deploy
+git branch -D deploy
