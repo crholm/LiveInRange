@@ -14,7 +14,7 @@ git add . --all
 git commit -m "automated deploy commit"
 
 # deploy branch on deploy remote (dokku)
-git push deploy deploy -f
+git push deploy deploy:master -f
 
 # clear deploy stuff
 git checkout master
